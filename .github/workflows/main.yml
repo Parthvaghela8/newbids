@@ -32,9 +32,6 @@ jobs:
       - name: Install AWS CLI
         run: pip3 install awscli
 
-      - name: Update known_hosts
-        run: ssh-keyscan -H ${{ secrets.EC2_HOST }} >> $HOME/.ssh/known_hosts
-
       - name: Debugging
         run: |
           ls -la target/
