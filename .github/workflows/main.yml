@@ -17,7 +17,7 @@ jobs:
       uses: actions/setup-java@v2
       with:
         distribution: 'temurin'
-        java-version: '17'  # Updated to Java 17 for compatibility
+        java-version: '21'  # Updated to Java 17 for compatibility
         cache: 'maven'
         cache-dependency-path: 'sub-project/pom.xml'  # optional
 
