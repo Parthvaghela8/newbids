@@ -35,18 +35,25 @@ jobs:
 
     steps:
     - name: Install AWS CLI
-      run: |
-        sudo apt-get install -y python3-pip
-        pip3 install awscli
+      run: pip3 install awscli
+
+    - name: Update known_hosts
+      run: ssh-keyscan -H ${{ secrets.EC2_HOST }} >> $HOME/.ssh/known_hosts
 
     - name: Upload JAR to S3
       uses: appleboy/ssh-action@v1.0.3
       with:
-        host: ${{ secrets.EC2_HOST }}
-        username: ${{ secrets.EC2_USERNAME }}
-        key: ${{ secrets.EC2_PRIVATE_KEY }}
-        script: |
-          aws s3 cp target/demo-0.0.1-SNAPSHOT.jar s3://s3instancepro/
+      host: ${{ secrets.EC2_HOST }}
+      username: ${{ secrets.EC2_USERNAME }}
+      key: ${{ secrets.EC2_PRIVATE_KEY }}
+    script: |
+      eval $(ssh-agent)
+      ssh-add <(echo "${{ secrets.EC2_PRIVATE_KEY }}")
+      aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+      aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      aws configure set aws_session_token ${{ secrets.AWS_SESSION_TOKEN }}
+      aws s3 cp target/demo-0.0.1-SNAPSHOT.jar s3://s3instancepro/
+
 
     - name: SSH into EC2
       uses: appleboy/ssh-action@v1.0.3
