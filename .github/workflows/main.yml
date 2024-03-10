@@ -44,6 +44,7 @@ jobs:
             ssh -v -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} "echo Hello"
             aws s3 cp target/demo-0.0.1-SNAPSHOT.jar s3://s3instancepro/
 
+
       - name: SSH into EC2
         uses: appleboy/ssh-action@master
         with:
