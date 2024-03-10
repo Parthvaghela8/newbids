@@ -40,7 +40,7 @@ jobs:
         aws s3 cp target/demo-0.0.1-SNAPSHOT.jar s3://s3instancepro/
 
     - name: SSH into EC2
-      uses: appleboy/ssh-action@v3
+      uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.EC2_HOST }}
         username: ${{ secrets.EC2_USERNAME }}
