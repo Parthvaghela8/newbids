@@ -20,10 +20,14 @@ jobs:
         java-version: '21'
         cache: 'maven'
         cache-dependency-path: 'sub-project/pom.xml'  # optional
+        
+    - name: Build with Maven (Clean and Install)
+      run: mvn clean install -e -X
 
-    - name: Build with Maven
+    - name: Build with Maven (Package)
       run: mvn -B package --file pom.xml
 
+    
   deploy:
     runs-on: ubuntu-latest
 
