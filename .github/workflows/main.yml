@@ -41,7 +41,7 @@ jobs:
 
     - name: Upload JAR to S3
       run: |
-        aws s3 cp /home/runner/work/newbids/newbids/target/demo-0.0.1-SNAPSHOT.jar s3://s3instancepro/
+        aws s3 cp target/demo-0.0.1-SNAPSHOT.jar s3://s3instancepro/
 
     - name: SSH into EC2
       uses: appleboy/ssh-action@v1.0.3
