@@ -13,25 +13,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Set up Maven Wrapper
+        run: mvn -N io.takari:maven:wrapper
+
       - name: Set up Java
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v1
         with:
-          distribution: 'temurin'
-          java-version: '21'  # Updated to Java 17 for compatibility
-          cache: 'maven'
-          cache-dependency-path: 'sub-project/pom.xml'  # optional
-
-      - name: Build with Maven
-        run: mvn -B package --file pom.xml
-
-      - name: Debugging
-        id: debugging
+          java-version: '21'
+ 
+      - name: Build Spring Boot application
         run: |
-          ls_result=$(ls -la)
-          jar_file=$(find . -name 'demo-0.0.1-SNAPSHOT.jar')
-
-          echo "::set-output name=ls_result::${ls_result}"
-          echo "::set-output name=jar_file::${jar_file}"
+          chmod +x mvnw
+          ./mvnw package -DskipTests
 
   deploy:
     runs-on: ubuntu-latest
@@ -40,12 +33,7 @@ jobs:
     steps:
       - name: Install AWS CLI
         run: pip3 install awscli
-
-      - name: Use Debugging Outputs
-        run: |
-          echo "ls result: ${{ needs.build.outputs.debugging.ls_result }}"
-          echo "JAR file: ${{ needs.build.outputs.debugging.jar_file }}"
-
+        
       - name: Upload JAR to S3
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -53,7 +41,7 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_PRIVATE_KEY }}
           script: |
-            ssh -v -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null user@host "echo Hello"
+            ssh -v -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} "echo Hello"
             aws s3 cp target/demo-0.0.1-SNAPSHOT.jar s3://s3instancepro/
 
       - name: SSH into EC2
