@@ -58,12 +58,6 @@ jobs:
           key: ${{ secrets.EC2_PRIVATE_KEY }}
           source: 'target/demo-0.0.1-SNAPSHOT.jar'
           target: '/home/ec2-user/'
-
-      - name: Configure AWS credentials
-        run: |
-          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws configure set default.region ${{ secrets.AWS_REGION }}
           
       - name: Run Spring Boot on EC2
         uses: appleboy/ssh-action@master
