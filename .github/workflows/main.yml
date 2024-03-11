@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - main
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -25,7 +26,7 @@ jobs:
         with:
           name: demo-0.0.1-SNAPSHOT
           path: target/demo-0.0.1-SNAPSHOT.jar
-          
+
   test:
     needs: build
     runs-on: ubuntu-latest
@@ -43,7 +44,7 @@ jobs:
           sudo apt-get install -y maven
       - name: Run Tests
         run: mvn test
-        
+
   deploy_and_run:
     needs: test
     runs-on: ubuntu-latest
@@ -60,10 +61,9 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_PRIVATE_KEY }}
           script: |
-            script: |
             PID=$(sudo lsof -t -i:8085)
             if [ ! -z "$PID" ]; then
-            sudo kill -9 $PID
+              sudo kill -9 $PID
             fi
             rm -f /home/ec2-user/demo-0.0.1-SNAPSHOT.jar
       - name: Copy JAR to EC2
@@ -74,6 +74,14 @@ jobs:
           key: ${{ secrets.EC2_PRIVATE_KEY }}
           source: 'target/demo-0.0.1-SNAPSHOT.jar'
           target: '/home/ec2-user/'
+      - name: Upload JAR to S3
+        uses: aws-actions/aws-cli@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+          inline-script: |
+            aws s3 cp /home/ec2-user/demo-0.0.1-SNAPSHOT.jar s3://s3instancepro/
       - name: Run Spring Boot on EC2
         uses: appleboy/ssh-action@master
         with:
@@ -83,4 +91,3 @@ jobs:
           script: |
             cd /home/ec2-user/target
             nohup java -jar demo-0.0.1-SNAPSHOT.jar > output.log 2>&1 &
- 
