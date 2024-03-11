@@ -93,6 +93,6 @@ jobs:
             nohup java -jar demo-0.0.1-SNAPSHOT.jar > output.log 2>&1 &
             VERSION=$(date +"%Y%m%d%H%M%S")
             aws s3 cp /home/ec2-user/target/demo-0.0.1-SNAPSHOT.jar s3://s3instancepro/demo-${VERSION}.jar
-            aws s3 cp /home/ec2-user/target/demo-0.0.1-SNAPSHOT.jar s3://s3instancepro/demo-0.0.1-SNAPSHOT.jar.jar
+            aws s3 cp /home/ec2-user/target/demo-0.0.1-SNAPSHOT.jar s3://s3instancepro/demo-0.0.1-SNAPSHOT.jar
 
  
