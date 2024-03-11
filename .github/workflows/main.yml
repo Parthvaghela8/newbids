@@ -1,4 +1,5 @@
 name: Build, Test, Deploy, and Run on EC2
+
 on:
   push:
     branches:
@@ -74,13 +75,14 @@ jobs:
           key: ${{ secrets.EC2_PRIVATE_KEY }}
           source: 'target/demo-0.0.1-SNAPSHOT.jar'
           target: '/home/ec2-user/'
-      - name: Upload JAR to S3
-        run: |
-         VERSION=$(date +"%Y%m%d%H%M%S")
-         docker run -e AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} \
-                    -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
-                    amazon/aws-cli s3 cp /home/ec2-user/demo-0.0.1-SNAPSHOT.jar s3://s3instancepro/demo-0.0.1-SNAPSHOT-${VERSION}.jar --debug
 
+      - name: Upload JAR to S3 with a different filename
+        run: |
+          VERSION=$(date +"%Y%m%d%H%M%S")
+          aws s3 cp target/demo-0.0.1-SNAPSHOT.jar s3://s3instancepro/demo-${VERSION}.jar
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       - name: Run Spring Boot on EC2
         uses: appleboy/ssh-action@master
