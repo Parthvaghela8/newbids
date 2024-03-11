@@ -85,7 +85,7 @@ jobs:
       - name: Upload file to S3
         run: |
           VERSION=$(date +"%Y%m%d%H%M%S")
-          aws s3 cp /home/ec2-user/demo-0.0.1-SNAPSHOT.jar s3://s3instancepro/demo-${VERSION}.jar
+          aws s3 cp /home/ec2-user/target/demo-0.0.1-SNAPSHOT.jar s3://s3instancepro/demo-${VERSION}.jar
 
       - name: Run Spring Boot on EC2
         uses: appleboy/ssh-action@master
