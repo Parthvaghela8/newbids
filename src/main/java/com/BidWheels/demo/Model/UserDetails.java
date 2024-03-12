@@ -15,7 +15,11 @@ public class UserDetails {
 
     @Id
     @Column(name = "user_id")
+<<<<<<< HEAD
     private Long userId;
+=======
+    private int userId;
+>>>>>>> dev
 
     @Column(name = "first_name", nullable = false)
     private String firstName;
@@ -30,7 +34,13 @@ public class UserDetails {
     private java.sql.Date dateOfBirth;
 
     @Column(name = "contact_number", nullable = false)
+<<<<<<< HEAD
     private Long contactNumber;
+=======
+    private int contactNumber;
+
+
+>>>>>>> dev
 
     // Constructors, getters, setters...
 }

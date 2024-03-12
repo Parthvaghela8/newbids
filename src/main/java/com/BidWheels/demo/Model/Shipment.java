@@ -14,7 +14,11 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @ToString
 @Table(name = "shipments")
+<<<<<<< HEAD
 public class Shipment {
+=======
+public class   Shipment {
+>>>>>>> dev
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

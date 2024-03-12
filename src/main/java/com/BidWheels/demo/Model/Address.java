@@ -7,6 +7,10 @@ import lombok.*;
 @Entity
 @Getter
 @Setter
+<<<<<<< HEAD
+=======
+
+>>>>>>> dev
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString

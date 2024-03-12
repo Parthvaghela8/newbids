@@ -16,6 +16,11 @@ public class UserDetailsController {
     @Autowired
     private UserDetailsService userDetailsService;
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> dev
     @GetMapping("/getdata")
     public ResponseEntity<List<UserDetails>> getAllUserDetails() {
         try {
