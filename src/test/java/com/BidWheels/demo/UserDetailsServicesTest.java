@@ -49,7 +49,7 @@ class UserDetailsServiceTest {
     void getUserDetailsById() {
         // Prepare data
         UserDetails userDetails = new UserDetails();
-        userDetails.setUserId(1);
+        userDetails.setUserId(1L);
 
         // Mock repository method
         Mockito.when(userDetailsRepository.findById(1L)).thenReturn(Optional.of(userDetails));
@@ -80,7 +80,7 @@ class UserDetailsServiceTest {
     void updateUserDetails() {
         // Prepare data
         UserDetails userDetails = new UserDetails();
-        userDetails.setUserId(1);
+        userDetails.setUserId(1L);
         userDetails.setFirstName("John");
 
         UserDetails updatedUserDetails = new UserDetails();
