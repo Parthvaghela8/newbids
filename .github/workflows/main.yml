@@ -46,7 +46,7 @@ jobs:
         run: mvn test
 
   deploy_and_run:
-    needs: build
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Download JAR artifact
