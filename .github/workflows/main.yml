@@ -42,16 +42,11 @@ jobs:
           distribution: 'adopt'
           java-version: '21'
 
-      - name: Install Maven
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y maven
-
       - name: Run Tests
         run: mvn test
 
   deploy_and_run:
-    needs: test
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Download JAR artifact
